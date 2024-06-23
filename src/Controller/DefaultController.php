@@ -19,8 +19,6 @@ class DefaultController extends AbstractController
        $blog->setTitle('TitleNew');
        $em->flush();
 
-       dd($blog);
-
         $blog = (new Blog())
             ->setTitle('Title')
             ->setDescription('Description')
@@ -29,8 +27,6 @@ class DefaultController extends AbstractController
         $em->persist($blog);
         $em->flush();
 
-        return $this->render('default/index.html.twig', [
-            'controller_name' => 'DefaultController',
-        ]);
+        return $this->redirectToRoute('app_blog_index');
     }
 }
