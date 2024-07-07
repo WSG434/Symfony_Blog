@@ -22,15 +22,25 @@ class BlogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('description')
-//            ->add('text')
-            ->add('text', TextareaType::class, ['required' => false])
+            ->add('title', TextType::class, [
+                'required' => true,
+                'help' => 'Заголовок текста, то что цепляет внимание и отражает суть',
+                'attr' => [
+                    'class' => 'myclass'
+                ]
+            ])
+            ->add('description', TextareaType::class)
+            ->add('text', TextareaType::class)
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+                'query_builder' => function ($repository) {
+                  return $repository->createQueryBuilder('p')->orderBy('p.name', 'DESC');
+                },
                 'choice_label' => 'name',
                 'required' => false,
-                'empty_data' => null,
+                'empty_data' => '',
+                'placeholder' => '',
+                'help' => 'можно пустым оставить'
             ])
             ->add('tags', TextType::class, array(
                 'label' => 'Теги',
