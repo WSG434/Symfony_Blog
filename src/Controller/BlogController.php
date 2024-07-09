@@ -43,11 +43,11 @@ class BlogController extends AbstractController
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
         $form->handleRequest($request);
+        $blog->setUser($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($blog);
             $entityManager->flush();
-
             return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
         }
 

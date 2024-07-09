@@ -24,7 +24,7 @@ class BlogRepository extends ServiceEntityRepository
     {
         return $this
             ->createQueryBuilder('b')
-            ->setMaxResults(6)
+//            ->setMaxResults(6)
             ->getQuery()
             ->getResult();
     }
