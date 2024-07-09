@@ -1,20 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}Beneficium | Main{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-3">Main page</h1>
+            <p>List of Goals</p>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="container">
+        <!-- Example row of columns -->
+        <div class="row">
+            {% for blog in blogs %}
+            <div class="col-md-4 border border-dark">
+                <h2>{{  blog.title }}</h2>
+                <p>{{ blog.description }}</p>
+                <p>{{ blog.text }}</p>
+                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+            </div>
+            {% endfor %}
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/vg/PhpstormProjects/Symfony_CRUD/src/Controller/DefaultController.php</code></li>
-        <li>Your template at <code>/Users/vg/PhpstormProjects/Symfony_CRUD/templates/default/index.html.twig</code></li>
-    </ul>
-</div>
+        <hr>
+
+    </div>
 {% endblock %}
