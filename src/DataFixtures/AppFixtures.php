@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Blog;
+use App\Entity\Category;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -24,6 +25,12 @@ class AppFixtures extends Fixture
         $user->setPassword($password);
         $manager->persist($user);
 
+        for ($i = 1; $i <= 3; $i++){
+            $category = new Category();
+            $category->setName('category ' . $i);
+            $manager->persist($category);
+        }
+
         for ($userIndex = 1; $userIndex <= 10; $userIndex++) {
             $user = new User();
             $user->setEmail('user'. $userIndex . '@yandex.ru');
@@ -40,6 +47,7 @@ class AppFixtures extends Fixture
                 $manager->persist($blog);
             }
         }
+
         $manager->flush();
     }
 }
