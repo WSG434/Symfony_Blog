@@ -33,3 +33,10 @@ tinker:
 
 test:
 	docker compose exec php-fpm vendor/bin/phpunit
+
+refresh:
+	docker compose exec php-fpm bin/console doctrine:database:drop --force --if-exists
+	docker compose exec php-fpm bin/console doctrine:database:create
+	docker compose exec php-fpm bin/console doctrine:migrations:migrate --no-interaction
+	docker compose exec php-fpm bin/console doctrine:fixtures:load --no-interaction
+

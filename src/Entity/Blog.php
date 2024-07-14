@@ -22,7 +22,7 @@ class Blog
     private ?string $title = null;
 
     #[Assert\NotBlank(message: 'Description is required')]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[Assert\NotBlank]
@@ -42,6 +42,9 @@ class Blog
     #[ORM\InverseJoinColumn(name: 'tag_id', referencedColumnName: 'id', unique: true)]
     #[ORM\ManyToMany(targetEntity: 'App\Entity\Tag', cascade: ['persist'])]
     private ArrayCollection|PersistentCollection $tags;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $percent = null;
 
     public function getTags(): ArrayCollection|PersistentCollection
     {
@@ -119,6 +122,18 @@ class Blog
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPercent(): ?string
+    {
+        return $this->percent;
+    }
+
+    public function setPercent(?string $percent): self
+    {
+        $this->percent = $percent;
 
         return $this;
     }
