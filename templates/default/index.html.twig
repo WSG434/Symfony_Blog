@@ -18,8 +18,8 @@
             <div class="col-md-4 border border-dark">
                 <h2>{{  blog.title }}</h2>
                 <p>{{ blog.description }}</p>
-                <p>{{ blog.text }}</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+                <p>{{ blog.text | length > 50 ? blog.text[:50] ~ '...' : blog.text }}</p>
+                <p><a class="btn btn-secondary" href="{{ path('app_blog_show', {'id': blog.id}) }}" role="button">View details »</a></p>
             </div>
             {% endfor %}
         </div>

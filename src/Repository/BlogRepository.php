@@ -25,6 +25,7 @@ class BlogRepository extends ServiceEntityRepository
         return $this
             ->createQueryBuilder('b')
 //            ->setMaxResults(6)
+            ->orderBy('b.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -44,6 +45,8 @@ class BlogRepository extends ServiceEntityRepository
                 ->andWhere('b.description LIKE :description')
                 ->setParameter('description', '%' . $blogFilter->getDescription() . '%');
         }
+
+        $blogs->orderBy('b.id', 'DESC');
 
         return $blogs->getQuery()->getResult();
     }

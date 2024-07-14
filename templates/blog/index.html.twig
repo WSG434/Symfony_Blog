@@ -29,7 +29,7 @@
                 <td>{{ blog.id }}</td>
                 <td>{{ blog.title }}</td>
                 <td>{{ blog.description }}</td>
-                <td>{{ blog.text }}</td>
+                <td>{{ blog.text | length > 50 ? blog.text[:50] ~ '...' : blog.text }}</td>
                 <td>{{ blog.percent }}</td>
                 <td>
                     <a href="{{ path('app_blog_show', {'id': blog.id}) }}">show</a>
