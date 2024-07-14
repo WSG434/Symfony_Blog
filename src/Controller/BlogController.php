@@ -6,12 +6,13 @@ use App\Entity\Blog;
 use App\Filter\BlogFilter;
 use App\Form\BlogFilterType;
 use App\Form\BlogType;
+use App\Message\ContentWatchMessage;
 use App\Repository\BlogRepository;
-use App\Service\ContentWatchApi;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin/blog')]
@@ -39,7 +40,12 @@ class BlogController extends AbstractController
     }
 
     #[Route('/new', name: 'app_blog_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ContentWatchApi $contentWatchApi): Response
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+//        ContentWatchApi $contentWatchApi
+        MessageBusInterface $bus
+        ): Response
     {
         $blog = new Blog();
         $form = $this->createForm(BlogType::class, $blog);
@@ -50,12 +56,8 @@ class BlogController extends AbstractController
             $entityManager->persist($blog);
             $entityManager->flush();
 
-            $blog->setPercent(
-                $contentWatchApi->checkText($blog->getText())
-            );
+            $bus->dispatch(new ContentWatchMessage($blog->getId()));
 
-            $entityManager->persist($blog);
-            $entityManager->flush();
             return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
         }
 

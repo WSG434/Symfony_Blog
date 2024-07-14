@@ -21,7 +21,7 @@ final class Version20240714124624 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE blog ADD percent VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE blog CHANGE description description VARCHAR(255) NOT NULL, CHANGE percent percent SMALLINT DEFAULT NULL');
+        $this->addSql('ALTER TABLE blog CHANGE description description LONGTEXT NOT NULL, CHANGE percent percent LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
