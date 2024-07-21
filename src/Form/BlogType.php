@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Form\DataTransformer\TagTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,7 +46,15 @@ class BlogType extends AbstractType
             ->add('tags', TextType::class, array(
                 'label' => 'Теги',
                 'required' => false,
-            ));
+            ))
+            ->add('status', ChoiceType::class, [
+                'choices' => [
+                    'pending' => 'pending',
+                    'active' => 'active',
+                    'blocked' => 'blocked',
+                ],
+                'placeholder' => ''
+            ]);
 
         $builder->get('tags')
             ->addModelTransformer($this->transformer);

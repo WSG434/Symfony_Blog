@@ -3,15 +3,22 @@
 namespace App\Entity;
 
 use App\Repository\BlogRepository;
+use App\Traits\TimeStampTrait;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
+use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\PersistentCollection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 class Blog
 {
+    use TimeStampTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -45,6 +52,13 @@ class Blog
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $percent = null;
+
+    #[Assert\NotBlank]
+    #[ORM\Column(type: Types::STRING)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DateTime $blockedAt=null;
 
     public function getTags(): ArrayCollection|PersistentCollection
     {
@@ -136,5 +150,37 @@ class Blog
         $this->percent = $percent;
 
         return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getBlockedAt(): ?DateTime
+    {
+        return $this->blockedAt;
+    }
+
+    public function setBlockedAt(?DateTime $blockedAt): self
+    {
+        $this->blockedAt = $blockedAt;
+
+        return $this;
+    }
+
+    #[ORM\PreUpdate]
+    public function setBlockedAtValue(): void
+    {
+        if ($this->status === 'blocked' && !$this->blockedAt){
+            $this->blockedAt = new DateTime();
+        }
     }
 }
