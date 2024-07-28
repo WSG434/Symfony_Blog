@@ -64,6 +64,7 @@ class Blog
     /**
      * @var Collection<int, Comment>
      */
+//    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'blog', cascade: ['remove'])]
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'blog', orphanRemoval: true)]
     #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $comments;

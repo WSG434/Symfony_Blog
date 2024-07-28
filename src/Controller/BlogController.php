@@ -111,4 +111,12 @@ class BlogController extends AbstractController
 
         return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/delete', name: 'app_blog_delete_get', methods: ['GET'])]
+    public function deleteLink(Blog $blog, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($blog);
+        $entityManager->flush();
+        return $this->redirectToRoute('app_blog_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
