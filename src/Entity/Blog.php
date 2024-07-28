@@ -54,7 +54,7 @@ class Blog
     private ?string $percent = null;
 
     #[Assert\NotBlank]
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
