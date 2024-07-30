@@ -69,6 +69,9 @@ class Blog
     #[ORM\OrderBy(['id' => 'DESC'])]
     private Collection $comments;
 
+    #[ORM\OneToOne(mappedBy: 'blog', cascade: ['remove', 'persist'])]
+    private ?BlogMeta $blogMeta = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -224,6 +227,19 @@ class Blog
                 $comment->setBlog(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBlogMeta(): ?BlogMeta
+    {
+        return $this->blogMeta;
+    }
+
+    public function setBlogMeta(?BlogMeta $blogMeta): self
+    {
+        $blogMeta?->setBlog($this);
+        $this->blogMeta = $blogMeta;
 
         return $this;
     }

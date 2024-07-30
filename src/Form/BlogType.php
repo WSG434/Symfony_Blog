@@ -54,7 +54,8 @@ class BlogType extends AbstractType
                     'blocked' => 'blocked',
                 ],
                 'placeholder' => ''
-            ]);
+            ])
+            ->add('blogMeta', BlogMetaType::class);
 
         $builder->get('tags')
             ->addModelTransformer($this->transformer);

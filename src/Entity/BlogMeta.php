@@ -22,7 +22,7 @@ class BlogMeta
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $author = null;
 
-    #[ORM\OneToOne(targetEntity: Blog::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Blog::class)]
     #[ORM\JoinColumn(name: 'blog_id', referencedColumnName: 'id')]
     private ?Blog $blog = null;
 
